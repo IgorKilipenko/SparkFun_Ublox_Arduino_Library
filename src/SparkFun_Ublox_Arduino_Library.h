@@ -188,13 +188,13 @@ public:
 	//By default use the default I2C address, and use Wire port
 	boolean begin(TwoWire &wirePort = Wire, uint8_t deviceAddress = 0x42); //Returns true if module is detected
 	//serialPort needs to be perviously initialized to correct baud rate
-	boolean begin(Stream &serialPort); //Returns true if module is detected
+	virtual boolean begin(Stream &serialPort); //Returns true if module is detected
 
 	boolean isConnected(); //Returns turn if device answers on _gpsI2Caddress address
 
 	boolean checkUblox();		//Checks module with user selected commType
 	boolean checkUbloxI2C();	//Method for I2C polling of data, passing any new bytes to process()
-	boolean checkUbloxSerial(); //Method for serial polling of data, passing any new bytes to process()
+	virtual boolean checkUbloxSerial(); //Method for serial polling of data, passing any new bytes to process()
 
 	void process(uint8_t incoming);							   //Processes NMEA and UBX binary sentences one byte at a time
 	void processUBX(uint8_t incoming, ubxPacket *incomingUBX); //Given a character, file it away into the uxb packet structure
@@ -344,7 +344,7 @@ public:
 
 	uint16_t rtcmFrameCounter = 0; //Tracks the type of incoming byte inside RTCM frame
 
-private:
+protected:
 	//Depending on the sentence type the processor will load characters into different arrays
 	enum SentenceTypes
 	{
